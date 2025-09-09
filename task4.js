@@ -1,5 +1,4 @@
 // Task 4: delUser(number)
-// En task4.js
 export const delUser = async (id) => {
     try {
         const url = `${globalThis.getServerURL()}/users/${id}`; 
