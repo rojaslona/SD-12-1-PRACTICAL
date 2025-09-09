@@ -35,7 +35,29 @@ switch (task) {
   case 4:
     globalThis.getServerURL = task1.getServerURL;
     globalThis.delUser = task4.delUser;
-    delUser(6);
-    delUser(5);
+
+    fetch(getServerURL() + "/users")
+      .then(response => response.json())
+      .then(users => {
+        const idsToDelete = users
+          .filter(user => /[a-z]/.test(user.id))
+          .map(user => user.id);
+
+        console.log("IDs to delete:", idsToDelete);
+
+        if (idsToDelete.length > 0) {
+          idsToDelete.forEach(id => {
+            delUser(id);
+          });
+        } else {
+          
+          delUser(5);
+          delUser(6);
+        }
+      })
+      .catch(error => console.error("Error getting the user list to delete:", error));
+
     setTimeout(function () { fetch(getServerURL() + "/users").then(response => response.json()).then(data => console.log(data)); }, 2000);
+    break;
 }
+
